@@ -3,22 +3,38 @@
 # Recipe:: default
 #
 
-if ['solo', 'app', 'app_master'].include?(node[:instance_role])
+
+#
+#  config for ALL node types
+#
+
+# set timezone to PST
+execute "sudo ln -sf /usr/share/zoneinfo/US/Pacific /usr/share/zoneinfo/localtime" do
+end
+
+directory '/data/dist/' do
+  owner 'deploy'
+  group 'users'
+  mode '0755'
+end
+
+if ['solo', 'app', 'app_master', 'utility'].include?(node[:instance_role])
   # 0.8.3 is there by default, we require 0.9.2
   execute "sudo gem install rake -v0.9.2" do
   end
 
-  # set timezone to PST
-  execute "sudo ln -sf /usr/share/zoneinfo/US/Pacific /usr/share/zoneinfo/localtime" do
+  install_freeimage =
+     "wget http://downloads.sourceforge.net/freeimage/FreeImage3150.zip ;
+     unzip FreeImage3150.zip ;
+     cd FreeImage ;
+     #{build_unix_src}"
+
+  execute install_freeimage do
+    cwd "/data/dist"
   end
+end
 
-
-  directory '/data/dist/' do
-    owner 'deploy'
-    group 'users'
-    mode '0755'
-  end
-
+if ['solo', 'app', 'app_master'].include?(node[:instance_role])
   # install MSSQL adapter dependencies for r6 import
   build_unix_src = "./configure ;
                     make ;
@@ -41,16 +57,6 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
      #{build_unix_src}"
 
   execute install_freetds do
-    cwd "/data/dist"
-  end
-
-  install_freeimage =
-     "wget http://downloads.sourceforge.net/freeimage/FreeImage3150.zip ;
-     unzip FreeImage3150.zip ;
-     cd FreeImage ;
-     #{build_unix_src}"
-
-  execute install_freeimage do
     cwd "/data/dist"
   end
 end
