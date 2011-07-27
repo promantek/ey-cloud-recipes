@@ -30,26 +30,48 @@ install_unix_odbc =
      cd unixODBC-2.3.0 ;
      #{build_unix_src}"
 
-install_freetds =
-   "wget http://ibiblio.org/pub/Linux/ALPHA/freetds/stable/freetds-stable.tgz ; 
-   tar -xzvf freetds-stable.tgz ;
-   cd freetds-0.82 ;
-   #{build_unix_src}"
-
 execute install_unix_odbc do
   cwd "/data/dist"
 end
+
+install_freetds =
+   "wget http://ibiblio.org/pub/Linux/ALPHA/freetds/stable/freetds-stable.tgz ;
+   tar -xzvf freetds-stable.tgz ;
+   cd freetds-0.82 ;
+   #{build_unix_src}"
 
 execute install_freetds do
   cwd "/data/dist"
 end
 
-## remove selenium, causes production dependency issues
-#execute "cd /data/trakstar/current ; rm -rf #{troublesome_files_causing_class_loading_issues} " do
-#  cwd "/data/dist"
-#end
+install_freeimage =
+   "wget http://downloads.sourceforge.net/freeimage/FreeImage3150.zip ;
+   unzip FreeImage3150.zip ;
+   cd FreeImage ;
+   #{build_unix_src}"
 
-#
-#def troublesome_files_causing_class_loading_issues
-#  "spec/selenium spec/support/selenium_spec_helper.rb lib/tasks/rspec_mods.rake lib/tasks/rspec_plugins.rake rm lib/tasks/initech.rake"
-#end
+execute install_freeimage do
+  cwd "/data/dist"
+end
+
+#configure r6SQL after deploy
+# manually configure r6 in /data/trakstar/shared/config/database.yml
+# r6_incentivation:
+#   adapter: sqlserver
+#   username: import
+#   password: 1mp0rt
+#   dataserver: r6_incentivation
+#   database: incentivation-test
+#   mode: dblib
+#   timeout: 6000000
+# # manually copy freetds.conf.sample to /usr/local/etc/freetds.conf
+# # replace r6_incentivation stanza
+# [r6_incentivation]
+#  host             = 10.162.126.63
+#  port             = 1433
+#  tds version      = 8.0
+#  client encoding  = UTF-8
+#  client charset   = UTF-8
+
+
+

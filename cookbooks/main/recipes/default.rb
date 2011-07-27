@@ -33,7 +33,7 @@ require_recipe "trakstar_dependencies"
 #end
 
 #uncomment to run the resque recipe
-#require_recipe "resque"
+require_recipe "resque"
 
 #uncomment to run the redis recipe
 #require_recipe "redis"
