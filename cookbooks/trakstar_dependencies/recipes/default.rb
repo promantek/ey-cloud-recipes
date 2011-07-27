@@ -18,6 +18,10 @@ directory '/data/dist/' do
   mode '0755'
 end
 
+build_unix_src = "./configure ;
+                  make ;
+                  sudo make install"
+
 if ['solo', 'app', 'app_master', 'utility'].include?(node[:instance_role])
   # 0.8.3 is there by default, we require 0.9.2
   execute "sudo gem install rake -v0.9.2" do
@@ -36,10 +40,6 @@ end
 
 if ['solo', 'app', 'app_master'].include?(node[:instance_role])
   # install MSSQL adapter dependencies for r6 import
-  build_unix_src = "./configure ;
-                    make ;
-                    sudo make install"
-
   install_unix_odbc =
       "wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.0.tar.gz ;
        tar -xzvf unixODBC-2.3.0.tar.gz ;
