@@ -13,7 +13,7 @@ if ['solo', 'db_master'].include?(node[:instance_role])
      owner 'root' 
      group 'root' 
      mode 0644 
-     source "resque_web.monitrc.conf.erb" 
+     source "resque_web.monit.conf.erb" 
      end
    end
 end
