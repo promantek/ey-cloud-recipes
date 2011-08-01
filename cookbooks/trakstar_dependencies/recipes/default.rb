@@ -72,17 +72,15 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   execute "chmod +x /usr/sbin/ssmtp /usr/bin/sendmail" do
   end
   
-  
   # TODO
+  # install tiny_tds gem
+  # mkdir -p data/trakstar/shared/config/environments/
+  # copy localized production.rb yml
+  
   # engineyard/portage/www-servers/nginx/files/nginx.conf
   # upload_max_file_size 10m;
   #   client_max_body_size 50m;
   #   
-  
-  # http://docs.engineyard.com/setup-ssmtp-for-mail-relay-to-authsmtp.html
-  # config/environments/production.rb
-  # config.action_mailer.delivery_method = :sendmail
-  # config.action_mailer.sendmail_settings = {:arguments => '-i'}
   
 end
 #configure r6SQL after deploy
