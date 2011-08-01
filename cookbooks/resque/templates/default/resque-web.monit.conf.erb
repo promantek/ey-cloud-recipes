@@ -1,0 +1,8 @@
+check process resque_web
+  with pidfile /var/run/resque_web.pid
+  #start program = "/usr/bin/nohup /engineyard/bin/resque-web trakstar start > /tmp/resque-web.out & echo $! > /var/run/resque_web.pid" with timeout 90 seconds
+  start program = "/usr/bin/nohup /engineyard/bin/resque-web trakstar start > /tmp/resque-web.out & echo $! > /var/run/resque_web.pid" with timeout 90 seconds
+  # pid captured above is only the script invoking ruby.  needs killall to stop
+  stop program = "/usr/bin/killall -5 resque-web" with timeout 90 seconds
+  if totalmem is greater than 300 MB for 2 cycles then restart # eating up memory?
+  group trakstar_resque

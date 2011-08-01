@@ -80,7 +80,7 @@ end
 #   database: incentivation-test
 #   mode: dblib
 #   timeout: 6000000
-# # manually copy freetds.conf.sample to /usr/local/etc/freetds.conf
+# # manually copy freetds.conf.sample to /e
 # # replace r6_incentivation stanza
 # [r6_incentivation]
 #  host             = 10.162.126.63

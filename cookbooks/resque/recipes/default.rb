@@ -2,12 +2,23 @@
 # Cookbook Name:: resque
 # Recipe:: default
 #
-if ['solo', 'util'].include?(node[:instance_role])  
-  execute "install resque gem" do
-    command "gem install resque redis redis-namespace yajl-ruby -r"
-    not_if { "gem list | grep resque" }
-  end
+execute "install resque gem" do
+  command "gem install resque redis redis-namespace yajl-ruby -r"
+  not_if { "gem list | grep resque" }
+end
 
+if ['solo', 'db'].include?(node[:instance_role]) 
+   node[:applications].each do |app, data|
+     template "/etc/monit.d/resque_web.monitrc" do 
+     owner 'root' 
+     group 'root' 
+     mode 0644 
+     source "resque-web.monitrc.conf.erb" 
+     end
+   end
+end
+
+if ['solo', 'app', 'util'].include?(node[:instance_role])  
   case node[:ec2][:instance_type]
     when 'm1.small': worker_count = 2
     when 'c1.medium': worker_count = 3
