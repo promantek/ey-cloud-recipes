@@ -18,7 +18,7 @@ if ['solo', 'db_master'].include?(node[:instance_role])
    end
 end
 
-if ['solo', 'app', 'util'].include?(node[:instance_role])  
+if ['solo', 'app_master', 'app', 'util'].include?(node[:instance_role])  
   case node[:ec2][:instance_type]
     when 'm1.small': worker_count = 2
     when 'c1.medium': worker_count = 3
