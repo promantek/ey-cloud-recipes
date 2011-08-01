@@ -22,7 +22,7 @@ build_unix_src = "./configure ;
                   make ;
                   sudo make install"
 
-if ['solo', 'app', 'app_master', 'utility'].include?(node[:instance_role])
+if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   # 0.8.3 is there by default, we require 0.9.2
   execute "sudo gem install rake -v0.9.2" do
   end
@@ -36,9 +36,7 @@ if ['solo', 'app', 'app_master', 'utility'].include?(node[:instance_role])
   execute install_freeimage do
     cwd "/data/dist"
   end
-end
 
-if ['solo', 'app', 'app_master'].include?(node[:instance_role])
   # install MSSQL adapter dependencies for r6 import
   install_unix_odbc =
       "wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.0.tar.gz ;
@@ -59,6 +57,18 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
   execute install_freetds do
     cwd "/data/dist"
   end
+  
+  # TODO
+  # engineyard/portage/www-servers/nginx/files/nginx.conf
+  # upload_max_file_size 10m;
+  #   client_max_body_size 50m;
+  #   
+  
+  # http://docs.engineyard.com/setup-ssmtp-for-mail-relay-to-authsmtp.html
+  # config/environments/production.rb
+  # config.action_mailer.delivery_method = :sendmail
+  # config.action_mailer.sendmail_settings = {:arguments => '-i'}
+  
 end
 #configure r6SQL after deploy
 # manually configure r6 in /data/trakstar/shared/config/database.yml
