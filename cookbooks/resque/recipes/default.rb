@@ -7,7 +7,7 @@ execute "install resque gem" do
   not_if { "gem list | grep resque" }
 end
 
-if ['solo', 'db'].include?(node[:instance_role]) 
+if ['solo', 'db_master'].include?(node[:instance_role]) 
    node[:applications].each do |app, data|
      template "/etc/monit.d/resque_web.monitrc" do 
      owner 'root' 
