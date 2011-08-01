@@ -57,6 +57,21 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   execute install_freetds do
     cwd "/data/dist"
   end
+
+  # configure SMTP
+  node[:applications].each do |app, data|
+    template "/etc/ssmtp/ssmtp.conf" do 
+    owner 'root' 
+    group 'root' 
+    mode 0644 
+    source "ssmtp.conf.erb" 
+    end
+  end
+  execute "chown deploy:deploy /etc/ssmtp/ssmtp.conf" do
+  end
+  execute "chmod +x /usr/sbin/ssmtp /usr/bin/sendmail" do
+  end
+  
   
   # TODO
   # engineyard/portage/www-servers/nginx/files/nginx.conf
