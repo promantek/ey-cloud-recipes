@@ -51,13 +51,43 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   install_freetds =
      "wget http://ibiblio.org/pub/Linux/ALPHA/freetds/stable/freetds-stable.tgz ;
      tar -xzvf freetds-stable.tgz ;
-     cd freetds-0.82 ;
+     cd freetds-stable ;
      #{build_unix_src}"
 
   execute install_freetds do
     cwd "/data/dist"
   end
+  
+  
+  ## install in deploy hook
+  install_32bit_wkhtmltopdf =
+     "sudo emerge libXext app-admin/eselect-fontconfig x11-libs/libXrender ;
+     wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.9.9-static-i386.tar.bz2 ;
+     tar xvjf wkhtmltopdf-0.9.9-static-i386.tar.bz2 ;
+     mv wkhtmltopdf-i386 /usr/local/bin/wkhtmltopdf ;
+     chmod +x /usr/local/bin/wkhtmltopdf"
 
+  install_64bit_wkhtmltopdf =
+     "sudo emerge libXext app-admin/eselect-fontconfig x11-libs/libXrender ;
+      wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.9.9-static-amd64.tar.bz2 ;
+      tar xvjf wkhtmltopdf-0.9.9-static-amd64.tar.bz2 ;
+      mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf ;
+      chmod +x /usr/local/bin/wkhtmltopdf"
+
+  execute install_32bit_wkhtmltopdf do
+    cwd "/data/dist"
+  end
+  
+  install_imagemagick =
+      wget ftp://ftp.fifi.org/pub/ImageMagick/ImageMagick-6.6.8-10.tar.gz ;
+      tar xvzf ImageMagick-6.6.8-10.tar.gz ;
+      cd ImageMagick-6.6.8-10;
+      #{build_unix_src}"
+
+  execute install_imagemagick do
+    cwd "/data/dist"
+  end
+  
   # configure SMTP
   node[:applications].each do |app, data|
     template "/etc/ssmtp/ssmtp.conf" do 
@@ -75,12 +105,20 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   # TODO
   # install tiny_tds gem
   # mkdir -p data/trakstar/shared/config/environments/
-  # copy localized production.rb yml
+  # copy localized production.rb yml data/trakstar/shared/config
+  # copy resque.yml to 
   
   # engineyard/portage/www-servers/nginx/files/nginx.conf
   # upload_max_file_size 10m;
   #   client_max_body_size 50m;
   #   
+  
+  # config for resque-web
+  # sudo gem install bundler
+  # sudo gem install resque-web
+  # create /data/trakstar/current/Gemfile gem 'resque', '1.19.0'
+  # RAILS_ENV=production bundle exec resque-web -p 8282
+  
   
 end
 #configure r6SQL after deploy
