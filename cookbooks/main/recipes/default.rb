@@ -32,6 +32,8 @@
 #  password "password"
 #end
 
+require_recipe "cron_check"
+
 #uncomment to run the resque recipe
 require_recipe "resque"
 
