@@ -14,7 +14,7 @@ if node[:name] == 'redis'
   cron "task_name" do 
     #minute '*/15' 
     user 'deploy' 
-    command "/usr/bin/scout 856c1874-e793-43b6-8098-f1e4fb320ec5"
+    command "/usr/bin/scout 642599c5-5df7-4c66-a50c-98883fbaf3de"
   end 
 end 
 #
