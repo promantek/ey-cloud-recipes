@@ -6,7 +6,11 @@ MEMCACHED_BINARY="/usr/bin/memcached"
  
 #Specify memory usage in megabytes (do not use letters)
 #64MB is default
-MEMUSAGE="<%= @memusage %>"
+if ['util'].include?(node[:instance_role])
+  MEMUSAGE="<%= 1024 %>"
+else
+  MEMUSAGE="<%= 2048 %>"
+end
  
 #User to run as
 MEMCACHED_RUNAS="memcached"
