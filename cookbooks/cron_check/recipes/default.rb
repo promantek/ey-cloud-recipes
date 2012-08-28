@@ -1,6 +1,9 @@
 # Recipe for testing cron is working properly.
 #
 
+#
+# NOTE: crontab for redis servers managed by whenever in a deploy hook.
+#       all scheduled tasks are run single server named "redis", since there is just one of them
 
 if node[:instance_role] == 'db_master' 
   cron "task_name" do 
@@ -10,13 +13,14 @@ if node[:instance_role] == 'db_master'
   end 
 end 
 
-if node[:name] == 'redis' 
+if node[:name] == 'app_master' 
   cron "task_name" do 
     #minute '*/15' 
     user 'deploy' 
-    command "/usr/bin/scout 642599c5-5df7-4c66-a50c-98883fbaf3de"
+    command "/usr/bin/scout 91fe7a32-64f3-4536-898b-b76ccee9e330"
   end 
 end 
+
 #
 # redundant with the EY use cronjob
 #
