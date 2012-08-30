@@ -87,7 +87,9 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   execute install_imagemagick do
     cwd "/data/dist"
   end
-  
+ 
+if ['solo', 'app', 'app_master', 'util', 'db_master'].include?(node[:instance_role])
+   
   # configure SMTP
   node[:applications].each do |app, data|
     template "/etc/ssmtp/ssmtp.conf" do 
@@ -101,6 +103,8 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   end
   execute "chmod +x /usr/sbin/ssmtp /usr/bin/sendmail" do
   end
+
+end
   
   # TODO
   # install tiny_tds gem
