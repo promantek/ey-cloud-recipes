@@ -87,6 +87,7 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   execute install_imagemagick do
     cwd "/data/dist"
   end
+end
  
 if ['solo', 'app', 'app_master', 'util', 'db_master'].include?(node[:instance_role])
    
@@ -124,7 +125,6 @@ end
   # RAILS_ENV=production bundle exec resque-web -p 8282
   
   
-end
 #configure r6SQL after deploy
 # manually configure r6 in /data/trakstar/shared/config/database.yml
 # r6_incentivation:
