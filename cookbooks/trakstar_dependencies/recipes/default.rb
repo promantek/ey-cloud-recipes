@@ -105,7 +105,7 @@ if ['solo', 'app', 'app_master', 'util', 'db_master'].include?(node[:instance_ro
       mode 0644 
       source "alerts.monitrc.erb"
       variables({
-       :role => node[:instance_rolea]
+       :role => node[:instance_role]
       })
     end
   end
