@@ -94,10 +94,16 @@ if ['solo', 'app', 'app_master', 'util', 'db_master'].include?(node[:instance_ro
   # configure SMTP
   node[:applications].each do |app, data|
     template "/etc/ssmtp/ssmtp.conf" do 
-    owner 'root' 
-    group 'root' 
-    mode 0644 
-    source "ssmtp.conf.erb" 
+      owner 'root' 
+      group 'root' 
+      mode 0644 
+      source "ssmtp.conf.erb" 
+    end
+    template "/etc/monit.d/alerts.monitrc" do 
+      owner 'root' 
+      group 'root' 
+      mode 0644 
+      source "alerts.monitrc.erb"
     end
   end
   execute "chown deploy:deploy /etc/ssmtp/ssmtp.conf" do

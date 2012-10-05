@@ -1,0 +1,19 @@
+set mailserver smtp.sendgrid.net               
+  USERNAME ops@promantek.com PASSWORD s3ndgr1d 
+        
+set mail-format {
+  from: monit@$HOST
+  subject: $ACTION $SERVICE $HOST: $DESCRIPTION
+
+  message: $EVENT Service $SERVICE                    
+
+    Date:        $DATE                   
+    Action:      $ACTION                
+    Host:        $HOST                 
+    Description: $DESCRIPTION         
+
+  Your faithful employee,
+  monit
+   }
+
+set alert ops@promantek.com               
