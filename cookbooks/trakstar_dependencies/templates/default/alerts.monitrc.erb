@@ -3,7 +3,7 @@ set mailserver smtp.sendgrid.net
         
 set mail-format {
   from: monit@$HOST
-  subject: $ACTION $SERVICE $HOST: $DESCRIPTION
+  subject: $ACTION $SERVICE on @role $HOST $DESCRIPTION
 
   message: $EVENT Service $SERVICE                    
 

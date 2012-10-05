@@ -104,6 +104,9 @@ if ['solo', 'app', 'app_master', 'util', 'db_master'].include?(node[:instance_ro
       group 'root' 
       mode 0644 
       source "alerts.monitrc.erb"
+      variables({
+       :role => node[:instance_rolea]
+      })
     end
   end
   execute "chown deploy:deploy /etc/ssmtp/ssmtp.conf" do
