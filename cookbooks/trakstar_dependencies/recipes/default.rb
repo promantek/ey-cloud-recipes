@@ -74,7 +74,7 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
       mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf ;
       chmod +x /usr/local/bin/wkhtmltopdf"
 
-  execute install_32bit_wkhtmltopdf do
+  execute install_64bit_wkhtmltopdf do
     cwd "/data/dist"
   end
   
