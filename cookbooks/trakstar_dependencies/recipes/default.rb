@@ -51,7 +51,7 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   install_freetds =
      "wget http://ibiblio.org/pub/Linux/ALPHA/freetds/stable/freetds-stable.tgz ;
      tar -xzvf freetds-stable.tgz ;
-     cd freetds-stable ;
+     cd freetds-0.91 ;
      #{build_unix_src}"
 
   execute install_freetds do
