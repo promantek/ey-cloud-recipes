@@ -79,7 +79,7 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   end
   
   install_imagemagick =
-      wget ftp://ftp.fifi.org/pub/ImageMagick/ImageMagick-6.6.8-10.tar.gz ;
+      "wget ftp://ftp.fifi.org/pub/ImageMagick/ImageMagick-6.6.8-10.tar.gz ;
       tar xvzf ImageMagick-6.6.8-10.tar.gz ;
       cd ImageMagick-6.6.8-10;
       #{build_unix_src}"
