@@ -34,11 +34,11 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
      #{build_unix_src}"
 
   filename = '/data/dist/FreeImage3150.zip'
-  if !File.exist?(filename) 
-    execute install_freeimage do
-      cwd "/data/dist"
-    end
-  end
+#  if !File.exist?(filename) 
+#    execute install_freeimage do
+#      cwd "/data/dist"
+#    end
+#  end
 
   # install MSSQL adapter dependencies for r6 import
   install_unix_odbc =
@@ -48,11 +48,11 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
        #{build_unix_src}"
 
   filename = '/data/dist/unixODBC-2.3.0.tar.gz'
-  if !File.exist?(filename)
-    execute install_unix_odbc do
-      cwd "/data/dist"
-    end
-  end
+#  if !File.exist?(filename)
+#    execute install_unix_odbc do
+#      cwd "/data/dist"
+#    end
+#  end
 
   install_freetds =
      "wget http://ibiblio.org/pub/Linux/ALPHA/freetds/stable/freetds-stable.tgz ;
@@ -61,11 +61,11 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
      #{build_unix_src}"
 
   filename = '/data/dist/freetds-stable.tgz'
-  if !File.exist?(filename)
-    execute install_freetds do
-      cwd "/data/dist"
-    end
-  end 
+#  if !File.exist?(filename)
+#    execute install_freetds do
+#      cwd "/data/dist"
+#    end
+#  end 
   
   ## install in deploy hook
   install_32bit_wkhtmltopdf =
@@ -83,11 +83,11 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
       chmod +x /usr/local/bin/wkhtmltopdf"
 
   filename = '/data/dist/wkhtmltopdf-0.9.9-static-amd64.tar.bz2'
-  if !File.exist?(filename)
-    execute install_64bit_wkhtmltopdf do
-      cwd "/data/dist"
-    end
-  end
+#  if !File.exist?(filename)
+#    execute install_64bit_wkhtmltopdf do
+#      cwd "/data/dist"
+#    end
+#  end
   
   install_imagemagick =
       "wget ftp://ftp.fifi.org/pub/ImageMagick/ImageMagick-6.7.9-10.tar.gz ;
@@ -96,11 +96,11 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
       #{build_unix_src}"
 
   filename = '/data/dist/ImageMagick-6.7.9-10.tar.gz'
-  if !File.exist?(filename)
-    execute install_imagemagick do
-      cwd "/data/dist"
-    end
-  end
+#  if !File.exist?(filename)
+#    execute install_imagemagick do
+#      cwd "/data/dist"
+#    end
+#  end
 end
  
 if ['solo', 'app', 'app_master', 'util', 'db_master'].include?(node[:instance_role])
