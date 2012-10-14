@@ -8,7 +8,7 @@ node[:applications].each do |app_name,data|
   user = node[:users].first
 
 case node[:instance_role]
- when "solo", "app", "app_master"
+ when "solo", "app", "app_master", "util"
    template "/data/#{app_name}/shared/config/memcached_custom.yml" do
      source "memcached.yml.erb"
      owner user[:username]
@@ -25,7 +25,7 @@ case node[:instance_role]
      group 'root'
      mode 0644
      source "memcached.erb"
-     variables :memusage => 64,
+     variables :memusage => 2048,
                :port     => 11211
    end
  end
