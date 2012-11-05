@@ -13,8 +13,7 @@
 #
 
 # set timezone to PST
-execute "sudo ln -sf /usr/share/zoneinfo/US/Pacific /usr/share/zoneinfo/localtime" do
-end
+execute 'sudo ln -sf /usr/share/zoneinfo/US/Pacific /usr/share/zoneinfo/localtime'
 
 directory '/data/dist/' do
   owner 'deploy'
@@ -28,9 +27,9 @@ end
 
 if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   # 0.8.3 is there by default, we require 0.9.2
-  execute "sudo gem install rake -v0.9.2"
+  execute 'sudo gem install rake -v0.9.2'
   # Building the linecache19 gem may fail during "bundle install" if the following gem is not installed
-  execute "sudo gem install ruby-debug19"
+  execute 'sudo gem install ruby-debug19'
 
   install_libyaml_0_1_4 =
     "wget http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz ;
@@ -39,7 +38,7 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
      ./configure --prefix=/usr && make && sudo make install"
 
   libyaml_version = begin
-    File.open("/tmp/get_libyaml_version.c", "w") do |file|
+    File.open('/tmp/get_libyaml_version.c', 'w') do |file|
       file.puts(%Q[#include <yaml.h>\nint main(void) { printf("%s", yaml_get_version_string()); }])
     end
     system('gcc -o /tmp/a.out /tmp/get_libyaml_version.c -L /usr/lib -I /usr/include -l yaml')
@@ -60,6 +59,22 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   unless (RUBY_VERSION == '1.9.3' && RUBY_PATCHLEVEL == 286 && psych_version == '1.3.4' && libyaml_version == '0.1.4')
     execute install_libyaml_0_1_4
     execute install_ruby_1_9_3_p286
+  end
+
+  node[:applications].each do |app, data|
+    template '/usr/local/bin/ruby_wrapper.sh' do
+      owner 'root'
+      group 'root'
+      mode 0644
+      source 'ruby_wrapper.sh.erb'
+    end
+
+    template '/etc/nginx/servers' do
+      owner 'deploy'
+      group 'deploy'
+      mode 0422
+      source 'trakstar.conf.erb'
+    end
   end
 
   # install_freeimage =
@@ -142,23 +157,23 @@ if ['solo', 'app', 'app_master', 'util', 'db_master'].include?(node[:instance_ro
 
   # configure SMTP
   node[:applications].each do |app, data|
-    template "/etc/ssmtp/ssmtp.conf" do
+    template '/etc/ssmtp/ssmtp.conf' do
       owner 'root'
       group 'root'
       mode 0644
-      source "ssmtp.conf.erb"
+      source 'ssmtp.conf.erb'
     end
-    template "/etc/monit.d/alerts.monitrc" do
+    template '/etc/monit.d/alerts.monitrc' do
       owner 'root'
       group 'root'
       mode 0644
-      source "alerts.monitrc.erb"
+      source 'alerts.monitrc.erb'
     end
   end
-  execute "chown deploy:deploy /etc/ssmtp/ssmtp.conf" do
-  end
-  execute "chmod +x /usr/sbin/ssmtp /usr/bin/sendmail" do
-  end
+  # Isn't this redundant with the "owner" / "group" and "mode" set in the template blocks above?
+  execute 'chown deploy:deploy /etc/ssmtp/ssmtp.conf'
+
+  execute 'chmod +x /usr/sbin/ssmtp /usr/bin/sendmail'
 
 end
 
