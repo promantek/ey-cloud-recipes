@@ -1,0 +1,66 @@
+passenger_ruby /usr/local/bin/ruby_wrapper.sh;
+
+server {
+
+  listen 81;
+
+  server_name app.trakstar.com;
+
+
+  client_max_body_size 100M;
+
+  root /data/trakstar/current/public;
+
+  access_log /var/log/engineyard/nginx/trakstar.access.log main;
+  error_log /var/log/engineyard/nginx/trakstar.error.log notice;
+
+  location ~ ^/(images|assets|javascripts|stylesheets)/ {
+    expires 10y;
+    try_files  $uri $uri/index.html /last_assets/$uri /last_assets/$uri.html @app_trakstar;
+  }
+
+  error_page 404 /404.html;
+  error_page 500 502 504 /500.html;
+  error_page 503 @503;
+
+  recursive_error_pages on;
+
+  location @503 {
+    error_page 405 = /system/maintenance.html;
+
+    if (-f $request_filename) {
+      break;
+    }
+
+    rewrite ^(.*)$ /system/maintenance.html break;
+  }
+
+  location @app_trakstar {
+
+    passenger_enabled on;
+
+    passenger_set_cgi_param HTTP_X_FORWARDED_FOR   $proxy_add_x_forwarded_for;
+    passenger_set_cgi_param HTTP_X_REAL_IP         $remote_addr;
+    passenger_set_cgi_param HTTP_HOST              $http_host;
+    passenger_set_cgi_param HTTP_X_FORWARDED_PROTO $scheme;
+    passenger_set_cgi_param HTTP_X_REQUEST_START   't=$start_time';
+    passenger_set_cgi_param HTTP_X_QUEUE_START     't=$start_time';
+
+    passenger_set_cgi_param SERVER_PORT            80;
+
+    rack_env production;
+
+    passenger_min_instances 2;
+
+    passenger_use_global_queue on;
+  }
+
+  location / {
+    if (-f $document_root/system/maintenance.html) {
+      return 503;
+    }
+    try_files $uri $uri/index.html $uri.html @app_trakstar;
+  }
+
+  include /etc/nginx/servers/trakstar/custom.conf;
+}
