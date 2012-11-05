@@ -76,7 +76,7 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
 
     execute move_trakstar_conf_aside
 
-    template '/etc/nginx/servers' do
+    template '/etc/nginx/servers/trakstar.conf' do
       owner 'deploy'
       group 'deploy'
       mode 0422
