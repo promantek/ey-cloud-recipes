@@ -61,6 +61,11 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
     execute install_ruby_1_9_3_p286
   end
 
+  move_trakstar_conf_aside =
+  "if [ -f /etc/nginx/servers/trakstar.conf ]; then
+     mv /etc/nginx/servers/trakstar.conf /etc/nginx/servers/trakstar.conf.old
+   fi"
+
   node[:applications].each do |app, data|
     template '/usr/local/bin/ruby_wrapper.sh' do
       owner 'root'
@@ -68,6 +73,8 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
       mode 0644
       source 'ruby_wrapper.sh.erb'
     end
+
+    execute move_trakstar_conf_aside
 
     template '/etc/nginx/servers' do
       owner 'deploy'
