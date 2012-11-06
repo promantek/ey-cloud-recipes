@@ -68,7 +68,7 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
     template '/usr/local/bin/ruby_wrapper.sh' do
       owner 'root'
       group 'root'
-      mode 0644
+      mode 0755
       source 'ruby_wrapper.sh.erb'
     end
 
