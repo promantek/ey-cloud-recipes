@@ -28,10 +28,6 @@ end
 if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
   # 0.8.3 is there by default, we require 0.9.2
   execute 'sudo gem install rake -v0.9.2'
-  # Building the linecache19 gem may fail during "bundle install" if the following gems are not installed
-  # (We really don't need / want the debugger in production, but it is mentioned in the Gemfile...)
-  execute 'sudo gem install ruby-debug19'
-  execute 'sudo gem install debugger'
 
   install_libyaml_0_1_4 =
     "wget http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz ;
