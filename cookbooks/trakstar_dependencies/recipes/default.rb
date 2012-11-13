@@ -3,7 +3,6 @@
 # Recipe:: default
 #
 
-
 #
 #  config for ALL node types
 #
@@ -59,28 +58,28 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
     execute install_ruby_1_9_3_p286
   end
 
-  move_trakstar_conf_aside =
-  "if [ -f /etc/nginx/servers/trakstar.conf ]; then
-     mv /etc/nginx/servers/trakstar.conf /etc/nginx/servers/trakstar.conf.old
-   fi"
+  # move_trakstar_conf_aside =
+  # "if [ -f /etc/nginx/servers/trakstar.conf ]; then
+  #    mv /etc/nginx/servers/trakstar.conf /etc/nginx/servers/trakstar.conf.old
+  #  fi"
 
-  node[:applications].each do |app, data|
-    template '/usr/local/bin/ruby_wrapper.sh' do
-      owner 'root'
-      group 'root'
-      mode 0755
-      source 'ruby_wrapper.sh.erb'
-    end
+  # node[:applications].each do |app, data|
+  #   template '/usr/local/bin/ruby_wrapper.sh' do
+  #     owner 'root'
+  #     group 'root'
+  #     mode 0755
+  #     source 'ruby_wrapper.sh.erb'
+  #   end
 
-    execute move_trakstar_conf_aside
+  #   execute move_trakstar_conf_aside
 
-    template '/etc/nginx/servers/trakstar.conf' do
-      owner 'deploy'
-      group 'deploy'
-      mode 0422
-      source 'trakstar.conf.erb'
-    end
-  end
+  #   template '/etc/nginx/servers/trakstar.conf' do
+  #     owner 'deploy'
+  #     group 'deploy'
+  #     mode 0422
+  #     source 'trakstar.conf.erb'
+  #   end
+  # end
 
   # install_freeimage =
   #   "wget http://downloads.sourceforge.net/freeimage/FreeImage3150.zip ;
