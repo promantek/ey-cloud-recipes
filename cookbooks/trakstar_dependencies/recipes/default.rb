@@ -53,13 +53,13 @@ if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
     ./configure --prefix=/usr --enable-shared --disable-install-doc --with-opt-dir=/usr/lib ;
     make -j 8 && sudo make install"
 
-  move_existing_ruby_aside =
-    "if [ -f /usr/bin/ruby ]; then
-      tar cjvf /tmp/usr.tar.bz /usr
-    fi"
+  #move_existing_ruby_aside =
+    #"if [ -f /usr/bin/ruby ]; then
+      #tar cjvf /tmp/usr.tar.bz /usr
+    #fi"
 
   unless (RUBY_VERSION == '1.9.3' && RUBY_PATCHLEVEL == 286 && psych_version == '1.3.4' && libyaml_version == '0.1.4')
-    execute move_existing_ruby_aside
+    #execute move_existing_ruby_aside
     execute install_libyaml_0_1_4
     execute install_ruby_1_9_3_p286
   end
